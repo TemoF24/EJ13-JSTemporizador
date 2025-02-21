@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesamiento de Promesas en Paralelo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #resultados {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Procesamiento de Múltiples Promesas en Paralelo</h1>
+    <p>Los resultados aparecerán abajo:</p>
+    <div id="resultados"></div>
+    
+    <script>
+        function temporizador(ms, mensaje) {
+            return new Promise(resolve => setTimeout(() => resolve(mensaje), ms));
+        }
+
+        async function ejecutarTemporizadores() {
+            console.log("Iniciando temporizadores...");
+            document.getElementById("resultados").innerText = "Ejecutando temporizadores...";
+
+            const promesa1 = temporizador(2000, "Temporizador 1 finalizado después de 2 segundos");
+            const promesa2 = temporizador(5000, "Temporizador 2 finalizado después de 5 segundo");
+            const promesa3 = temporizador(3000, "Temporizador 3 finalizado después de 3 segundos");
+
+            const resultados = await Promise.all([promesa1, promesa2, promesa3]);
+
+            console.log("Todos los temporizadores han finalizado:");
+            document.getElementById("resultados").innerText = resultados.join("\n");
+            resultados.forEach(resultado => console.log(resultado));
+        }
+
+        ejecutarTemporizadores();
+    </script>
+</body>
+</html>
